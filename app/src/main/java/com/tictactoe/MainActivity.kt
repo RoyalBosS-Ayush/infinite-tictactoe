@@ -7,11 +7,13 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import com.tictactoe.databinding.ActivityMainBinding
+import java.util.ArrayDeque
 
 class MainActivity : ComponentActivity() {
     private var flag = false
     private var count = 0
     private lateinit var binding: ActivityMainBinding
+    private val buttonQueue = ArrayDeque<Button>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +33,11 @@ class MainActivity : ComponentActivity() {
         } else {
             currBtn.text = "O"
         }
+        buttonQueue.add(currBtn)
         flag = !flag
-        count++
+        if (count <= 6) {
+            count++;
+        }
 
         val b1 = binding.btn1.text.toString()
         val b2 = binding.btn2.text.toString()
@@ -61,32 +66,72 @@ class MainActivity : ComponentActivity() {
             handleWinner(b3)
         } else if (b3 != "" && b3 == b5 && b5 == b7) {
             handleWinner(b3)
-        } else if (count == 9) {
-            handleDraw()
+        }
+
+        if (count > 6) {
+            val poppedButton = buttonQueue.poll()
+            if (poppedButton != null) {
+                Log.d("poppedButton ID:", "${poppedButton.id}")
+                poppedButton.alpha = 1f
+                poppedButton.text = ""
+            }
+        }
+        if (count > 5) {
+            val lastButton = buttonQueue.first()
+            Log.d("lastButton ID:", "${lastButton.id}")
+            lastButton.alpha = 0.3f
         }
     }
 
     private fun handleDraw() {
-        Toast.makeText(this@MainActivity, "Draw!", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this@MainActivity, "Draw!", Toast.LENGTH_LONG).show()
         newGame()
     }
 
     private fun handleWinner(winner: String) {
-        Toast.makeText(this@MainActivity, "Winner is $winner", Toast.LENGTH_SHORT).show()
+        Toast.makeText(this@MainActivity, "Winner is $winner", Toast.LENGTH_LONG).show()
         newGame()
     }
 
     private fun newGame() {
-        binding.btn1.text = ""
-        binding.btn2.text = ""
-        binding.btn3.text = ""
-        binding.btn4.text = ""
-        binding.btn5.text = ""
-        binding.btn6.text = ""
-        binding.btn7.text = ""
-        binding.btn8.text = ""
-        binding.btn9.text = ""
+        binding.btn1.apply{
+            text = ""
+            alpha = 1f
+        }
+        binding.btn2.apply{
+            text = ""
+            alpha = 1f
+        }
+        binding.btn3.apply{
+            text = ""
+            alpha = 1f
+        }
+        binding.btn4.apply{
+            text = ""
+            alpha = 1f
+        }
+        binding.btn5.apply{
+            text = ""
+            alpha = 1f
+        }
+        binding.btn6.apply{
+            text = ""
+            alpha = 1f
+        }
+        binding.btn7.apply{
+            text = ""
+            alpha = 1f
+        }
+        binding.btn8.apply{
+            text = ""
+            alpha = 1f
+        }
+        binding.btn9.apply{
+            text = ""
+            alpha = 1f
+        }
         flag = false
         count = 0
+        buttonQueue.clear()
     }
 }
