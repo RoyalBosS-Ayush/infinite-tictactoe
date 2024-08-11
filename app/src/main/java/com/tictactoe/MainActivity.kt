@@ -1,17 +1,20 @@
 package com.tictactoe
 
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.core.content.ContextCompat
 import com.tictactoe.databinding.ActivityMainBinding
 import java.util.ArrayDeque
 
 class MainActivity : ComponentActivity() {
-    private var flag = false
-    private var count = 0
+    private var flag = true
+    private var playerXWinCount = 0
+    private var playerOWinCount = 0
     private lateinit var binding: ActivityMainBinding
     private val buttonQueue = ArrayDeque<Button>()
 
@@ -20,6 +23,9 @@ class MainActivity : ComponentActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+        binding.playerOLabel.alpha = 0.5f
+        binding.playerXWinCount.text = "0"
+        binding.playerOWinCount.text = "0"
     }
 
     fun check(view: View) {
@@ -30,108 +36,103 @@ class MainActivity : ComponentActivity() {
 
         if (flag) {
             currBtn.text = "X"
+            currBtn.setTextColor(ContextCompat.getColor(this, R.color.red))
+            binding.playerXLabel.alpha = 0.5f
+            binding.playerOLabel.alpha = 1f
         } else {
             currBtn.text = "O"
+            currBtn.setTextColor(ContextCompat.getColor(this, R.color.blue))
+            binding.playerXLabel.alpha = 1f
+            binding.playerOLabel.alpha = 0.5f
         }
         buttonQueue.add(currBtn)
         flag = !flag
-        if (count <= 6) {
-            count++;
-        }
 
-        val b1 = binding.btn1.text.toString()
-        val b2 = binding.btn2.text.toString()
-        val b3 = binding.btn3.text.toString()
-        val b4 = binding.btn4.text.toString()
-        val b5 = binding.btn5.text.toString()
-        val b6 = binding.btn6.text.toString()
-        val b7 = binding.btn7.text.toString()
-        val b8 = binding.btn8.text.toString()
-        val b9 = binding.btn9.text.toString()
+        val b1 = binding.btn1
+        val b2 = binding.btn2
+        val b3 = binding.btn3
+        val b4 = binding.btn4
+        val b5 = binding.btn5
+        val b6 = binding.btn6
+        val b7 = binding.btn7
+        val b8 = binding.btn8
+        val b9 = binding.btn9
 
-        Log.d("TicTacToe", "b1: $b1, b2: $b2")
-        if (b1 != "" && b1 == b2 && b2 == b3) {
+        if (isWinner(b1, b2, b3)) {
             handleWinner(b1)
-        } else if (b4 != "" && b4 == b5 && b5 == b6) {
+        } else if (isWinner(b4, b5, b6)) {
             handleWinner(b4)
-        } else if (b7 != "" && b7 == b8 && b8 == b9) {
+        } else if (isWinner(b7, b8, b9)) {
             handleWinner(b7)
-        } else if (b1 != "" && b1 == b4 && b4 == b7) {
+        } else if (isWinner(b1, b4, b7)) {
             handleWinner(b1)
-        } else if (b2 != "" && b2 == b5 && b5 == b8) {
+        } else if (isWinner(b2, b5, b8)) {
             handleWinner(b2)
-        } else if (b3 != "" && b3 == b6 && b6 == b9) {
+        } else if (isWinner(b3, b6, b9)) {
             handleWinner(b3)
-        } else if (b1 != "" && b1 == b5 && b5 == b9) {
+        } else if (isWinner(b1, b5, b9)) {
             handleWinner(b3)
-        } else if (b3 != "" && b3 == b5 && b5 == b7) {
+        } else if (isWinner(b3, b5, b7)) {
             handleWinner(b3)
         }
 
-        if (count > 6) {
+        if (buttonQueue.size > 6) {
             val poppedButton = buttonQueue.poll()
             if (poppedButton != null) {
-                Log.d("poppedButton ID:", "${poppedButton.id}")
-                poppedButton.alpha = 1f
+                changeTextColorAlpha(poppedButton, 255)
                 poppedButton.text = ""
             }
         }
-        if (count > 5) {
+        if (buttonQueue.size > 5) {
             val lastButton = buttonQueue.first()
-            Log.d("lastButton ID:", "${lastButton.id}")
-            lastButton.alpha = 0.3f
+            changeTextColorAlpha(lastButton, 100)
         }
     }
 
-    private fun handleDraw() {
-        Toast.makeText(this@MainActivity, "Draw!", Toast.LENGTH_LONG).show()
-        newGame()
+    private fun isWinner(btn1: Button, btn2: Button, btn3: Button): Boolean {
+        val queueSize = buttonQueue.size
+        val lastButton = buttonQueue.first()
+        if (queueSize > 5 && lastButton == btn1 || lastButton == btn2 || lastButton == btn3) {
+            return false
+        }
+
+        val b1 = btn1.text.toString()
+        val b2 = btn2.text.toString()
+        val b3 = btn3.text.toString()
+        return b1 != "" && b1 == b2 && b2 == b3
     }
 
-    private fun handleWinner(winner: String) {
-        Toast.makeText(this@MainActivity, "Winner is $winner", Toast.LENGTH_LONG).show()
+    private fun handleWinner(winnerBtn: Button) {
+        val btnText = winnerBtn.text.toString()
+        if (btnText == "X") {
+            playerXWinCount++
+            binding.playerXWinCount.text = "$playerXWinCount"
+        } else {
+            playerOWinCount++
+            binding.playerOWinCount.text = "$playerOWinCount"
+        }
+        Toast.makeText(this@MainActivity, "Winner is $btnText", Toast.LENGTH_LONG).show()
         newGame()
     }
 
     private fun newGame() {
-        binding.btn1.apply{
-            text = ""
-            alpha = 1f
+        while (buttonQueue.isNotEmpty()) {
+            val poppedButton = buttonQueue.poll()
+            if (poppedButton != null) {
+                changeTextColorAlpha(poppedButton, 255)
+                poppedButton.text = ""
+            }
         }
-        binding.btn2.apply{
-            text = ""
-            alpha = 1f
-        }
-        binding.btn3.apply{
-            text = ""
-            alpha = 1f
-        }
-        binding.btn4.apply{
-            text = ""
-            alpha = 1f
-        }
-        binding.btn5.apply{
-            text = ""
-            alpha = 1f
-        }
-        binding.btn6.apply{
-            text = ""
-            alpha = 1f
-        }
-        binding.btn7.apply{
-            text = ""
-            alpha = 1f
-        }
-        binding.btn8.apply{
-            text = ""
-            alpha = 1f
-        }
-        binding.btn9.apply{
-            text = ""
-            alpha = 1f
-        }
-        flag = false
-        count = 0
-        buttonQueue.clear()
+    }
+
+    private fun changeTextColorAlpha(btn: Button, alpha: Int) {
+        val currentColor = btn.currentTextColor
+        val newColor = Color.argb(
+            alpha,
+            Color.red(currentColor),
+            Color.green(currentColor),
+            Color.blue(currentColor)
+        )
+        btn.setTextColor(newColor)
     }
 }

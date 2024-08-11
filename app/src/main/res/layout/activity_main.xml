@@ -1,87 +1,176 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    android:background="@color/white"
+    android:layout_height="match_parent">
 
-    <androidx.gridlayout.widget.GridLayout
+
+    <GridLayout
+        android:id="@+id/gridLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:columnCount="3">
+        android:layout_gravity="center"
+        android:background="@color/border"
+        android:columnCount="3"
+        android:rowCount="3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
             android:id="@+id/btn1"
-            android:layout_width="50pt"
-            android:layout_height="50pt"
-            android:layout_margin="5dp"
+            android:layout_width="48pt"
+            android:layout_height="48pt"
+            android:layout_marginEnd="4pt"
+            android:layout_marginBottom="4pt"
+            android:background="@color/btn"
             android:onClick="check"
             android:textSize="30pt" />
 
         <Button
             android:id="@+id/btn2"
-            android:layout_width="50pt"
-            android:layout_height="50pt"
-            android:layout_margin="5dp"
+            android:layout_width="48pt"
+            android:layout_height="48pt"
+            android:layout_marginStart="4pt"
+            android:layout_marginEnd="4pt"
+            android:layout_marginBottom="4pt"
+            android:background="@color/btn"
             android:onClick="check"
             android:textSize="30pt" />
 
         <Button
             android:id="@+id/btn3"
-            android:layout_width="50pt"
-            android:layout_height="50pt"
-            android:layout_margin="5dp"
+            android:layout_width="48pt"
+            android:layout_height="48pt"
+
+            android:layout_marginStart="4pt"
+            android:layout_marginBottom="4pt"
+            android:background="@color/btn"
             android:onClick="check"
+
             android:textSize="30pt" />
 
         <Button
             android:id="@+id/btn4"
-            android:layout_width="50pt"
-            android:layout_height="50pt"
-            android:layout_margin="5dp"
+            android:layout_width="48pt"
+            android:layout_height="48pt"
+            android:layout_marginTop="4pt"
+            android:layout_marginEnd="4pt"
+            android:layout_marginBottom="4pt"
+            android:background="@color/btn"
             android:onClick="check"
             android:textSize="30pt" />
 
         <Button
             android:id="@+id/btn5"
-            android:layout_width="50pt"
-            android:layout_height="50pt"
-            android:layout_margin="5dp"
+            android:layout_width="48pt"
+            android:layout_height="48pt"
+            android:layout_margin="4pt"
+            android:background="@color/btn"
             android:onClick="check"
             android:textSize="30pt" />
 
         <Button
             android:id="@+id/btn6"
-            android:layout_width="50pt"
-            android:layout_height="50pt"
-            android:layout_margin="5dp"
+            android:layout_width="48pt"
+            android:layout_height="48pt"
+            android:layout_marginStart="4pt"
+            android:layout_marginTop="4pt"
+            android:layout_marginBottom="4pt"
+            android:background="@color/btn"
             android:onClick="check"
             android:textSize="30pt" />
 
         <Button
             android:id="@+id/btn7"
-            android:layout_width="50pt"
-            android:layout_height="50pt"
-            android:layout_margin="5dp"
+            android:layout_width="48pt"
+            android:layout_height="48pt"
+            android:layout_marginTop="4pt"
+            android:layout_marginEnd="4pt"
+            android:background="@color/btn"
             android:onClick="check"
             android:textSize="30pt" />
 
         <Button
             android:id="@+id/btn8"
-            android:layout_width="50pt"
-            android:layout_height="50pt"
-            android:layout_margin="5dp"
+            android:layout_width="48pt"
+            android:layout_height="48pt"
+            android:layout_marginStart="4pt"
+            android:layout_marginTop="4pt"
+            android:layout_marginEnd="4pt"
+            android:background="@color/btn"
             android:onClick="check"
             android:textSize="30pt" />
 
         <Button
             android:id="@+id/btn9"
-            android:layout_width="50pt"
-            android:layout_height="50pt"
-            android:layout_margin="5dp"
+            android:layout_width="48pt"
+            android:layout_height="48pt"
+            android:layout_marginStart="4pt"
+            android:layout_marginTop="4pt"
+            android:background="@color/btn"
             android:onClick="check"
             android:textSize="30pt" />
 
-    </androidx.gridlayout.widget.GridLayout>
-</LinearLayout>
+    </GridLayout>
+
+    <GridLayout
+        android:id="@+id/gridLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:rowCount="2"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/playerXLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:paddingHorizontal="16dp"
+            android:text="@string/x"
+            android:textAlignment="center"
+            android:textColor="@color/red"
+            android:textSize="24pt"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/playerOLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:paddingHorizontal="16dp"
+            android:text="@string/o"
+            android:textAlignment="center"
+            android:textColor="@color/blue"
+            android:textSize="24pt"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/playerXWinCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:paddingHorizontal="16dp"
+            android:textAlignment="center"
+            android:textSize="10pt"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/playerOWinCount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:paddingHorizontal="16dp"
+            android:textAlignment="center"
+            android:textSize="10pt"
+            android:textStyle="bold" />
+    </GridLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
