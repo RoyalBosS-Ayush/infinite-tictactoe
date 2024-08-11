@@ -1,11 +1,14 @@
 package com.tictactoe
 
+import android.content.Intent
 import android.graphics.Color
 import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.core.content.ContextCompat
@@ -31,6 +34,15 @@ class MainActivity : ComponentActivity() {
         binding.playerOWinCount.text = "0"
         btnMediaPlayer = MediaPlayer.create(this, R.raw.btn_sound)
         winMediaPlayer = MediaPlayer.create(this, R.raw.win_sound)
+
+        val imageView: ImageView = binding.github
+
+        imageView.setOnClickListener {
+            val url = "https://github.com/RoyalBosS-Ayush/infinite-tictactoe"
+            val intent = Intent(Intent.ACTION_VIEW)
+            intent.data = Uri.parse(url)
+            startActivity(intent)
+        }
     }
 
     override fun onDestroy() {
