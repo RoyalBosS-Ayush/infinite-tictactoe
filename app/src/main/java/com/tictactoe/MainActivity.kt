@@ -82,7 +82,7 @@ class MainActivity : ComponentActivity() {
         } else if (isWinner(b3, b6, b9)) {
             handleWinner(b3)
         } else if (isWinner(b1, b5, b9)) {
-            handleWinner(b3)
+            handleWinner(b1)
         } else if (isWinner(b3, b5, b7)) {
             handleWinner(b3)
         } else {
@@ -105,7 +105,7 @@ class MainActivity : ComponentActivity() {
     private fun isWinner(btn1: Button, btn2: Button, btn3: Button): Boolean {
         val queueSize = buttonQueue.size
         val lastButton = buttonQueue.first()
-        if (queueSize > 5 && lastButton == btn1 || lastButton == btn2 || lastButton == btn3) {
+        if (queueSize > 5 && (lastButton.id == btn1.id || lastButton.id == btn2.id || lastButton.id == btn3.id)) {
             return false
         }
 
