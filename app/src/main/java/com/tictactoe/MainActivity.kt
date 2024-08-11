@@ -1,6 +1,7 @@
 package com.tictactoe
 
 import android.graphics.Color
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -17,6 +18,8 @@ class MainActivity : ComponentActivity() {
     private var playerOWinCount = 0
     private lateinit var binding: ActivityMainBinding
     private val buttonQueue = ArrayDeque<Button>()
+    private lateinit var btnMediaPlayer: MediaPlayer
+    private lateinit var winMediaPlayer: MediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +29,14 @@ class MainActivity : ComponentActivity() {
         binding.playerOLabel.alpha = 0.5f
         binding.playerXWinCount.text = "0"
         binding.playerOWinCount.text = "0"
+        btnMediaPlayer = MediaPlayer.create(this, R.raw.btn_sound)
+        winMediaPlayer = MediaPlayer.create(this, R.raw.win_sound)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        btnMediaPlayer.release()
+        winMediaPlayer.release()
     }
 
     fun check(view: View) {
@@ -74,6 +85,8 @@ class MainActivity : ComponentActivity() {
             handleWinner(b3)
         } else if (isWinner(b3, b5, b7)) {
             handleWinner(b3)
+        } else {
+            btnMediaPlayer.start()
         }
 
         if (buttonQueue.size > 6) {
@@ -112,6 +125,7 @@ class MainActivity : ComponentActivity() {
             binding.playerOWinCount.text = "$playerOWinCount"
         }
         Toast.makeText(this@MainActivity, "Winner is $btnText", Toast.LENGTH_LONG).show()
+        winMediaPlayer.start()
         newGame()
     }
 
